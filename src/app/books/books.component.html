@@ -1,0 +1,24 @@
+<ul>
+  <li *ngFor="let book of data">
+    Book name: {{book.name}}
+    <button type="button" (click)="deleteBook(book.id)">Delete</button>
+    <br>
+    Book availability: {{book.available}}
+  </li>
+</ul>
+
+<br>
+<br>
+
+
+
+
+<form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
+  <label>Book name: </label>
+  <input ngModel type="text" name="name" >
+  <br>
+  <label>Available: </label>
+  <input ngModel type="checkbox" name="available">
+  <br>
+  <button type="submit">Add book</button>
+</form>
