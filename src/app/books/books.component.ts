@@ -10,7 +10,7 @@ import {Guid} from "guid-typescript";
 })
 export class BooksComponent implements OnInit {
   data: any;
-
+  isDisabled = false;
   constructor(private service: BookService) {
   }
 
@@ -43,5 +43,19 @@ export class BooksComponent implements OnInit {
         console.log(data);
       });
     window.location.reload();
+  }
+
+  getBook(id: string) {
+    this.service.getBook(id).subscribe(
+      data => {
+        alert(data.name);
+       console.log(data);
+      });
+
+
+  }
+
+  log(value: string) {
+    console.log(value);
   }
 }

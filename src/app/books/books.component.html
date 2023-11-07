@@ -1,7 +1,8 @@
 <ul>
   <li *ngFor="let book of data">
     Book name: {{book.name}}
-    <button type="button" (click)="deleteBook(book.id)">Delete</button>
+    <button type="button" mat-raised-button color="primary" (click)="deleteBook(book.id)" [disabled]="isDisabled">Delete</button>
+    <button type="button" (click)="getBook(book.id)">Get book</button>
     <br>
     Book availability: {{book.available}}
   </li>
@@ -9,6 +10,9 @@
 
 <br>
 <br>
+
+<input #myInput type="text">
+<button (click)="log(myInput.value)">Log</button>
 
 
 
