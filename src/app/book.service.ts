@@ -27,7 +27,7 @@ export class BookService {
     return this.http.get(this.baseUrl + "/" + id);
   }
 
-  updateBook(id: string, book: BookModel) {
-     this.http.put(this.baseUrl + "/availability/" + id, book.available);
+  updateBook(id: string, book: BookModel) : Observable<any> {
+    return this.http.put(this.baseUrl + "/availability/" + id, book.available);
   }
 }

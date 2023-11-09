@@ -12,7 +12,7 @@ import {map, Observable, tap} from "rxjs";
 export class BooksComponent implements OnInit {
   data: any;
   isDisabled = false;
-  book: any;
+
   constructor(private service: BookService) {
   }
 
@@ -50,7 +50,6 @@ export class BooksComponent implements OnInit {
 
   getBook(id: string):any {
     return this.service.getBook(id).subscribe(data => {
-      this.book = data;
     });
   }
 
@@ -58,8 +57,8 @@ export class BooksComponent implements OnInit {
     this.addBook($event);
   }
 
-  handleUpdateBook(id: string) {
-     this.book = this.getBook(id);
-    this.service.updateBook(id, this.book);
+  handleUpdateBook(book: BookModel) {
+    book.available = !book.available;
+    this.service.updateBook(book.id, book);
   }
 }

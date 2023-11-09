@@ -2,7 +2,7 @@
   <li *ngFor="let book of data">
     Book name: {{book.name}}
     <button type="button" mat-raised-button color="primary" (click)="deleteBook(book.id)" [disabled]="isDisabled">Delete</button>
-    <update-availability (updateBook)="handleUpdateBook(book.id)" style="margin-left: 10px;"></update-availability>
+    <update-availability (updateBook)="handleUpdateBook(book)" style="margin-left: 10px;"></update-availability>
     <br>
     Book availability: {{book.available}}
   </li>
