@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { BookService } from "../book.service";
 import {BookModel} from "./Book.Model";
 import {Guid} from "guid-typescript";
+import {map, Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-books',
@@ -11,18 +12,12 @@ import {Guid} from "guid-typescript";
 export class BooksComponent implements OnInit {
   data: any;
   isDisabled = false;
+  book: any;
   constructor(private service: BookService) {
   }
 
   onSubmit(formData: any) {
-    let book = new BookModel();
-    book.id = Guid.create().toString();
-    book.name = formData.value.name;
-    book.available = Boolean(formData.value.available);
-    this.service.addBook(book).subscribe((response) => {
-      console.log(response);
-    });
-    window.location.reload();
+
   }
 
   ngOnInit(): void {
@@ -31,9 +26,15 @@ export class BooksComponent implements OnInit {
     console.log(this.data);
   }
 
-  addBook(book: any): void{
-    this.service.addBook(book);
-
+  addBook(book: BookModel): void{
+    let newBook = new BookModel();
+    newBook.id = Guid.create().toString();
+    newBook.name = book.name;
+    newBook.available = Boolean(book.available);
+    this.service.addBook(newBook).subscribe((response) => {
+      console.log(response);
+      this.data.push(response);
+    });
   }
 
 
@@ -42,20 +43,23 @@ export class BooksComponent implements OnInit {
       data => {
         console.log(data);
       });
-    window.location.reload();
+
+    let index = this.data.findIndex((x: { id: string; }) => x.id === id);
+    this.data.splice(index, 1);
   }
 
-  getBook(id: string) {
-    this.service.getBook(id).subscribe(
-      data => {
-        alert(data.name);
-       console.log(data);
-      });
-
-
+  getBook(id: string):any {
+    return this.service.getBook(id).subscribe(data => {
+      this.book = data;
+    });
   }
 
-  log(value: string) {
-    console.log(value);
+  handleNewBookEvent($event: any) {
+    this.addBook($event);
+  }
+
+  handleUpdateBook(id: string) {
+     this.book = this.getBook(id);
+    this.service.updateBook(id, this.book);
   }
 }
